@@ -1,0 +1,35 @@
+# The build target is a executable file
+TARGET := program
+# Sources, with .c for C program or as .cpp for C++  program
+SOURCE := main.cpp
+# Objs are all the sources, with .cpp replaced by .o
+OBJECTS := $(SOURCE:.cpp=.o)
+
+# The compiler: gcc for C program, or define as g++ for C++
+CC := g++
+# Compiler flags:
+#  -g     - this flag adds debugging information to the executable file
+#  -Wall  - this flag is used to turn on most compiler warnings
+CFLAGS := -g -Wall
+# 
+INCLUDES := 
+# 
+LFLAGS := 
+# 
+LIBS := 
+
+# Target common 
+all: $(TARGET)
+
+# Compile the binary "TARGET" by calling the compiler with cflags,
+#	lflags, and any libs (if defined) and the list of objects.
+$(TARGET): $(OBJECTS)
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJECTS) $(LFLAGS) $(LIBS)
+
+# Get a .o from a .cpp by calling compiler with cflags and includes (if defined)
+%cpp.o: %cpp
+	$(CC) $(CFLAGS) $(INCLUDES) $< -c $@ 
+
+# Obect files and executable file clean
+clean:
+	rm -vrf $(OBJECTS) $(TARGET)
